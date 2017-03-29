@@ -1,0 +1,17 @@
+Digital PLL accepting high speed clock (50MHz or more) and word clock signal
+(late will be named Fs). There is no matter which duty cycle word clock have,
+only rising edge ___/``` is used. Pll generating bitclock with frequency
+256*Fs. Bitclock have jitter, but this do not become problem for decoding
+signal. Also "locked" signel goes up when PLL become ready.
+
+
+Цифровой PLL принимает на вход высокую тактовую частоту (50Мгц или выше) и
+сигнал word clock с некоторой частотой Fs (важен только передний фронт __/``, 
+скважность и положение заднего фронта ```\__ не имеет значения) и генерирует 
+на выходе сигнал bitclock который равен 256*Fs. Сигнал имеет некоторый
+джиттер, однаког тако джиттер не должен влиять на декодирование сигнала.
+Ошибка деления частоты clk на частоту Fs равномерно распределяется на 256 
+тактов bitclock.
+Так же на выходе имеется сигнал locked, который принимает единицу, когда PLL
+вышел на рабочий режим.
+

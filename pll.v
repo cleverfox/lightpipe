@@ -14,8 +14,8 @@ reg wc_d;
 reg [DIVW:0]wordcnt;
 reg [DIVW-8:0]cnh;
 reg [7:0]cnl;
-reg [7:0]clockdownh;
-reg [7:0]clockdown;
+reg [DIVW-9:0]clockdownh;
+reg [DIVW-8:0]clockdown;
 reg [7:0]cbit;
 reg [7:0]nbit;
 
@@ -29,7 +29,6 @@ always @(clk) begin
     else
     if (wc_d == 0 && wc == 1) 
         locked <= ~(cbit!=0 && cbit!=255 || wordcnt<256);
-
 end
 
 always @(clk) begin
@@ -69,7 +68,7 @@ always @(clk) begin
         begin
             cbit <= 0;
             nbit <= 1;
-            clockdownh <= cnh[7:1];
+            clockdownh <= cnh[DIVW-8:1];
             clockdown <= cnh - 1 + (cnl[7]?1:0);
         end
         else
@@ -77,7 +76,7 @@ always @(clk) begin
             begin
                 cbit <= cbit+1;
                 nbit <= cbit+2;
-                clockdownh <= cnh[7:1];
+                clockdownh <= cnh[DIVW-8:1];
                 clockdown <=  cnh - 1 + ((nbit[0]   ==   0 && cnl[7])?1:0 +
                     (nbit[1:0] ==   3 && cnl[6])?1:0 +
                     (nbit[2:0] ==   5 && cnl[5])?1:0 +
