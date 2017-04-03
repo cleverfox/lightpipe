@@ -28,16 +28,18 @@ module nrzi_decoder
     input reset,
     input in,
     output oe,
-    output reg out
+    output reg out,
+    output loss
 );
 
 // Internal regs
-reg [2:0] accum;
+reg [5:0] accum;
 reg reset_d, reset_dd;
 wire transition;
 reg in_d, in_dd, in_ddd, in_dddd;
 assign transition = in_dddd ^ in_ddd;
-assign oe = (accum == 3'b011 ? 1'b1 : 1'b0);
+assign oe = (accum[1:0] == 2'b11 ? 1'b1 : 1'b0);
+assign loss = (accum > 32 ? 1'b1 : 1'b0);
 
 // Reset sync logic
 always @(posedge refclk) reset_d <= reset;
@@ -68,7 +70,7 @@ end
 // units on the positive edge of accum[2].
 always @(posedge refclk) begin
     if (reset_dd || transition)
-        accum <= 3'b0;
+        accum <= 4'b0;
     else
         accum <= accum + 1'b1;
 end
