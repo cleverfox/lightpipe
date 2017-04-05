@@ -31,13 +31,6 @@ framer_o framer_o_inst(mclk, wordclock,
     words[7], 
     user, lightpipe);
 
-lightpipe_recv recv(
-    hclk, wclk, rst, wordclock, 
-    ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8,
-    rx_usr,
-    lightpipe);
-
-
 always
   #17.7154 pllclk = ~pllclk;
 
